@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="shortcut icon" href="https://th.bing.com/th/id/OIP.9LrVs6DYgR-bzvEYq6a4-AHaGC?rs=1&pid=ImgDetMain" type="image/x-icon">
+    <link rel="stylesheet" href="to-do.css">
+    <title>TO_DO App</title>
+    <style>
+      #logo{
+    height:40px;
+    width:40px;
+    border-radius: 6px;
+    box-shadow: 3px 3px 1px rgb(0, 0, 0);
+    /* margin-left:10px; */
+}
+
+.formcontainer{
+    margin-top:50px;
+    
+}
+.tablecontainer{
+    margin-top: 20px;
+}
+.cardcontainer{
+    margin-top:100px;
+    text-align: center;
+}
+    </style>
+  </head>
+  <body>
+    <!-- Image and text -->
+<nav class="navbar navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">
+      <img id="logo" src="https://th.bing.com/th/id/OIP.9LrVs6DYgR-bzvEYq6a4-AHaGC?rs=1&pid=ImgDetMain" width="30" height="30" class="d-inline-block align-top" alt="">
+      TO DO
+    </a>
+  </nav>
+  <div class="alert " role="alert" id="alert">
+    
+  </div>
+  <div class="container formcontainer">
+    <div class="row">
+      <div class="col-sm">
+        <form id="myForm">
+            <div class="form-group">
+              <label for="task"><h3>Task:</h3></label>
+              <input type="text" class="form-control input" id="task" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+              <label for="description"><h3>Description:</h3></label>
+              <input type="text" class="form-control input" id="description">
+            </div>
+            <button type="button" class="btn btn-primary" id="submit">ADD</button>
+          </form> 
+      </div>
+      
+    </div>
+  </div>
+  <div class="container cardcontainer">
+    <div class="row">
+      <div class="col-sm">
+        <div class="card bg-primary " style="width: 8rem;">
+            <div class="card-body">
+              <h5 class="card-title">TASKs</h5>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+  </div>
+  <div class="container  tablecontainer">
+    <div class="row">
+      <div class="col-sm">
+        <table class="table table-sm" id="tabledata">
+            <thead>
+              <tr>
+                <th scope="col">S.No.</th>
+                <th scope="col">Task</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+      </div>
+      
+    </div>
+  </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+        var i=1;
+        // document.getElementById("submit").addEventListener("click", createTable);     
+function createTable() {
+  var table = document.getElementById("tabledata");
+  var row = table.insertRow();
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  var cell3 = row.insertCell(2);
+  var cell4 = row.insertCell(3);
+ var task=document.getElementById("task");
+ var des=document.getElementById("description");
+        cell1.innerHTML= i;
+        cell2.innerHTML = task.value;
+        cell3.innerHTML = des.value;
+        cell4.innerHTML = ' <button class="done btn btn-primary" onclick="done(this)" >Done</button>  <button class=" delete btn btn-primary" onclick="deleteRow(this)">Delete</button> ';
+        document.getElementById("task").value="";
+        document.getElementById("description").value="";
+
+i=i+1;
+        
+}
+function deleteRow(button) {
+  var row = button.parentNode.parentNode;
+  row.parentNode.removeChild(row);
+}
+
+function done(button){
+  var row = button.parentNode.parentNode;
+  row.style.backgroundColor="#7cff80";
+ 
+  var element = document.getElementById("alert");
+      element.classList.add("alert-success");
+      document.getElementById("alert").innerHTML="WELL DONE you completed a task";
+      setTimeout(function() {
+        element.classList.remove("alert-success");
+      document.getElementById("alert").innerHTML="";
+      }, 3000);
+}  
+document.getElementById("submit").addEventListener("click", function(event){
+      var name = document.getElementById("task");
+      if(name.value==""){
+        alert("Enter some Task");
+        event.preventDefault();
+      }
+      else{
+        createTable();
+        var element = document.getElementById("alert");
+      element.classList.add("alert-info");
+      document.getElementById("alert").innerHTML="Entry Done";
+      setTimeout(function() {
+        element.classList.remove("alert-info");
+      document.getElementById("alert").innerHTML="";
+      }, 3000);
+      }
+    });
+</script>
+  </body>
+</html>
