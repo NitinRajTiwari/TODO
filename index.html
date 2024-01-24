@@ -29,6 +29,9 @@
     margin-top:100px;
     text-align: center;
 }
+.done,.delete{
+  margin:1.5px;
+}
     </style>
   </head>
   <body>
@@ -51,7 +54,7 @@
               <input type="text" class="form-control input" id="task" aria-describedby="emailHelp">
             </div>
             <div class="form-group">
-              <label for="description"><h3>Details:</h3></label>
+              <label for="description"><h3>Description:</h3></label>
               <input type="text" class="form-control input" id="description">
             </div>
             <button type="button" class="btn btn-primary" id="submit">ADD</button>
@@ -80,7 +83,7 @@
               <tr>
                 <th scope="col">S.No.</th>
                 <th scope="col">Task</th>
-                <th scope="col">Details</th>
+                <th scope="col">Description</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -89,7 +92,7 @@
             </tbody>
           </table>
       </div>
-      
+    
     </div>
   </div>
 
@@ -113,7 +116,7 @@ function createTable() {
         cell1.innerHTML= i;
         cell2.innerHTML = task.value;
         cell3.innerHTML = des.value;
-        cell4.innerHTML = ' <button class="done btn btn-primary" onclick="done(this)" >Done</button>  <button class=" delete btn btn-primary" onclick="deleteRow(this)">Delete</button> ';
+        cell4.innerHTML = '<button class="done btn btn-primary" onclick="check(this)">Done</button>    <button class=" delete btn btn-primary" onclick="deleteRow(this)">Delete</button> ';
         document.getElementById("task").value="";
         document.getElementById("description").value="";
 
@@ -124,17 +127,39 @@ function deleteRow(button) {
   var row = button.parentNode.parentNode;
   row.parentNode.removeChild(row);
 }
-
+function check(button){
+  var data=button.innerHTML;
+  if(data=="Done"){
+    done(button);
+  }
+  if(data=="Redo"){
+    remove(button);
+  }
+}
 function done(button){
   var row = button.parentNode.parentNode;
   row.style.backgroundColor="#7cff80";
- 
+  button.innerHTML="Redo";
   var element = document.getElementById("alert");
       element.classList.add("alert-success");
       document.getElementById("alert").innerHTML="WELL DONE you completed a task";
+
       setTimeout(function() {
-        element.classList.remove("alert-success");
       document.getElementById("alert").innerHTML="";
+      element.classList.remove("alert-success");
+      }, 3000);
+}  
+function remove(button){
+  var row = button.parentNode.parentNode;
+  row.style.backgroundColor="white";
+  button.innerHTML="Done";
+  var element = document.getElementById("alert");
+      element.classList.add("alert-warning");
+      document.getElementById("alert").innerHTML="TRY To Complete";
+
+      setTimeout(function() {
+      document.getElementById("alert").innerHTML="";
+      element.classList.remove("alert-warning");
       }, 3000);
 }  
 document.getElementById("submit").addEventListener("click", function(event){
@@ -149,8 +174,8 @@ document.getElementById("submit").addEventListener("click", function(event){
       element.classList.add("alert-info");
       document.getElementById("alert").innerHTML="Entry Done";
       setTimeout(function() {
-        element.classList.remove("alert-info");
       document.getElementById("alert").innerHTML="";
+      element.classList.remove("alert-info");
       }, 3000);
       }
     });
